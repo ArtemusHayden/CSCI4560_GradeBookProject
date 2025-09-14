@@ -10,9 +10,9 @@ PRIMARY KEY (`course_id`)
 
 CREATE TABLE `users` (
 `user_id` INT(11) NOT NULL AUTO_INCREMENT,
-`username` VARCHAR(255) NOT NULL,
+`username` VARCHAR(255) NOT NULL UNIQUE,
 `fullName` VARCHAR(255) NOT NULL,
-`email` VARCHAR(100) NOT NULL,
+`email` VARCHAR(100) NOT NULL UNIQUE,
 `password` VARCHAR(255) NOT NULL,
 `isTeacher` BIT NOT NULL, -- if false, user is student, if true user is teacher
 PRIMARY KEY (`user_id`)
