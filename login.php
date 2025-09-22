@@ -18,11 +18,15 @@
             $stmt->bind_result($user_id, $real_username, $real_password, $isTeacher); //assigns query results to usable variables
             $stmt->fetch();
 
-            if (password_verify($password, $real_password)) { //verify password
+            if (password_verify($password, $real_password)) { 
                 $_SESSION['user_id'] = $user_id;
                 $_SESSION['username'] = $real_username;
                 $_SESSION['isTeacher'] = $isTeacher; //store these values in session to be used later on
-                header("Location: home.php"); //redirect to home/dashboard, eventually will redirect differently based on isTeacher status
+                if ($isTeacher) {
+                    header("Location: teacherDashboard.php"); //redirect to teacher dashboard
+                } else {
+                    header("Location: studentDashboard.php"); //redirect to student dashboard
+                }
                 exit;
             } else {
                 $message = "Invalid password!";
@@ -44,7 +48,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="navigation"> <!-- defaul nav bar -->
+    <div class="navigation"> <!-- default nav bar -->
         <a href="login.php">Login</a>
         <a href="register.php">Register</a>
         <a href="home.php">Home</a>
