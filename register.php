@@ -9,14 +9,14 @@
         $password = $_POST["password"];
         $role = $_POST["role"];
 
-        $hashPassword = password_hash($password, PASSWORD_DEFAULT); //hash password
+        //$hashPassword = password_hash($password, PASSWORD_DEFAULT); ---> SHOULD USE THIS FOR ACTUAL APPLICATION
 
         //convert role to boolean value
         $isTeacher = ($role === "teacher") ? 1 : 0;
 
         //prepare insert statement
         $stmt = $conn->prepare("INSERT INTO users (username, fullName, email, password, isTeacher) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssi", $username, $fullName, $email, $hashPassword, $isTeacher);
+        $stmt->bind_param("ssssi", $username, $fullName, $email, $password, $isTeacher); // ----> SHOULD ACTUALLY PASS IN $hashPassword
 
         if ($stmt->execute()) {
             echo "<p style='color: green;'>Registration successful!</p>";
