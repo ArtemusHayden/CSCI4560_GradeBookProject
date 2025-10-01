@@ -47,7 +47,7 @@ CREATE TABLE `enrollments` (
     FOREIGN KEY (`section_id`) REFERENCES `sections`(`section_id`)
 );
 
---below is AI generated junk data for testing/demo purposes
+-- below is AI generated junk data for testing/demo purposes
 
 
 -- -----------------------------
@@ -221,4 +221,5 @@ INSERT INTO enrollments (student_id, section_id) VALUES
 (5, 11), (7, 11), (9, 11), (11, 11),
 -- Section 12 (Music 101, Teacher 3)
 (13, 12), (15, 12), (17, 12), (19, 12);
+
 
