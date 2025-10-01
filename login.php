@@ -18,7 +18,7 @@
             $stmt->bind_result($user_id, $real_username, $real_password, $isTeacher); //assigns query results to usable variables
             $stmt->fetch();
 
-            if (password_verify($password, $real_password)) { 
+            if ($password == $real_password) { // if(password_verify($password, $real_password)) ---> SHOULD USE THIS FOR ACTUAL APPLICATION
                 $_SESSION['user_id'] = $user_id;
                 $_SESSION['username'] = $real_username;
                 $_SESSION['isTeacher'] = $isTeacher; //store these values in session to be used later on
