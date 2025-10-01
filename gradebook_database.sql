@@ -28,189 +28,196 @@ FOREIGN KEY (`teacher_id`) REFERENCES `users`(`user_id`)
 );
 
 CREATE TABLE `grades` (
-`grade_id` INT(11) NOT NULL AUTO_INCREMENT,    
-`user_id` INT(11) NOT NULL,
-`course_id` INT(11) NOT NULL,
-`section_id` INT(11) NOT NULL,
-`grade_value` DECIMAL(5,2) NOT NULL,
-PRIMARY KEY (`grade_id`),
-FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`),
-FOREIGN KEY (`course_id`) REFERENCES `courses`(`course_id`),
-FOREIGN KEY (`section_id`) REFERENCES `sections`(`section_id`)
+    `grade_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `user_id` INT(11) NOT NULL,
+    `section_id` INT(11) NOT NULL,
+    `assignment_name` VARCHAR(255) NOT NULL,
+    `grade_value` DECIMAL(5,2) NOT NULL,
+    PRIMARY KEY (`grade_id`),
+    FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`),
+    FOREIGN KEY (`section_id`) REFERENCES `sections`(`section_id`)
 );
 
--- Below is AI generated mock data
+CREATE TABLE `enrollments` (
+    `enrollment_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `student_id` INT(11) NOT NULL,
+    `section_id` INT(11) NOT NULL,
+    PRIMARY KEY (`enrollment_id`),
+    FOREIGN KEY (`student_id`) REFERENCES `users`(`user_id`),
+    FOREIGN KEY (`section_id`) REFERENCES `sections`(`section_id`)
+);
 
-INSERT INTO `courses` (`courseName`) VALUES
-('Mathematics I'),       -- course_id = 1
-('English Literature'),  -- 2
-('Biology'),             -- 3
-('Chemistry'),           -- 4
-('World History'),       -- 5
-('Computer Science'),    -- 6
-('Art Appreciation'),    -- 7
-('Physics');             -- 8
-
--- ---------- TEACHERS ---------- --teachpass1
-INSERT INTO `users` (`username`, `fullName`, `email`, `password`, `isTeacher`) VALUES
-('teacher1', 'Teacher One', 'teacher1@example.com', '$2y$10$PTXnlQB.ZHP9COG.1auHxO0UBFR4DYNwqZX29Z68nKpAEHQaZjXUy', 1),
-('teacher2', 'Teacher Two', 'teacher2@example.com', '$2y$10$rYXHIqQ5WRYPKncMUK1ZiOVkD10ra/VvhXK7u9Esl6KWT1dlr2leO', 1),
-('teacher3', 'Teacher Three', 'teacher3@example.com', '$2y$10$yFe8e58aJ6000X6wyLhAKuh0skwBV28PuWpvq7sW.puyj8pHdou2i', 1);
+--below is AI generated junk data for testing/demo purposes
 
 
--- ---------- SECTIONS ----------
--- Mapping: section_id increments as inserted (we create 18 sections)
--- course_id mapping: 1=Math,2=English,3=Biology,4=Chemistry,5=History,6=CS,7=Art,8=Physics
+-- -----------------------------
+-- Insert Teachers
+-- -----------------------------
+INSERT INTO users (username, fullName, email, password, isTeacher) VALUES
+('teacher1', 'Alice Johnson', 'alice.johnson@example.com', 'password123', 1),
+('teacher2', 'Bob Smith', 'bob.smith@example.com', 'password123', 1),
+('teacher3', 'Carol Davis', 'carol.davis@example.com', 'password123', 1);
 
-INSERT INTO `sections` (`course_id`, `teacher_id`) VALUES
-(1, 1),  -- section_id = 1  Math (teacher Alice)
-(1, 2),  -- section_id = 2  Math (teacher Bob)
+-- Teacher login info example:
+-- Username: teacher1
+-- Password: password123
 
-(2, 2),  -- section_id = 3  English (Bob)
-(2, 3),  -- section_id = 4  English (Carol)
-(2, 1),  -- section_id = 5  English (Alice)
+-- -----------------------------
+-- Insert Courses
+-- -----------------------------
+INSERT INTO courses (courseName) VALUES
+('Math 101'),
+('English 101'),
+('History 101'),
+('Science 101'),
+('Art 101'),
+('Music 101');
 
-(3, 3),  -- section_id = 6  Biology (Carol)
-(3, 1),  -- section_id = 7  Biology (Alice)
+-- -----------------------------
+-- Insert Sections (2 sections per course)
+-- -----------------------------
+INSERT INTO sections (course_id, teacher_id) VALUES
+(1, 1), (1, 2),
+(2, 1), (2, 3),
+(3, 2), (3, 3),
+(4, 1), (4, 2),
+(5, 2), (5, 3),
+(6, 1), (6, 3);
 
-(4, 1),  -- section_id = 8  Chemistry (Alice)
-(4, 2),  -- section_id = 9  Chemistry (Bob)
+-- -----------------------------
+-- Insert Students (25)
+-- -----------------------------
+INSERT INTO users (username, fullName, email, password, isTeacher) VALUES
+('student1', 'Student One', 'student1@example.com', 'pass1', 0),
+('student2', 'Student Two', 'student2@example.com', 'pass2', 0),
+('student3', 'Student Three', 'student3@example.com', 'pass3', 0),
+('student4', 'Student Four', 'student4@example.com', 'pass4', 0),
+('student5', 'Student Five', 'student5@example.com', 'pass5', 0),
+('student6', 'Student Six', 'student6@example.com', 'pass6', 0),
+('student7', 'Student Seven', 'student7@example.com', 'pass7', 0),
+('student8', 'Student Eight', 'student8@example.com', 'pass8', 0),
+('student9', 'Student Nine', 'student9@example.com', 'pass9', 0),
+('student10', 'Student Ten', 'student10@example.com', 'pass10', 0),
+('student11', 'Student Eleven', 'student11@example.com', 'pass11', 0),
+('student12', 'Student Twelve', 'student12@example.com', 'pass12', 0),
+('student13', 'Student Thirteen', 'student13@example.com', 'pass13', 0),
+('student14', 'Student Fourteen', 'student14@example.com', 'pass14', 0),
+('student15', 'Student Fifteen', 'student15@example.com', 'pass15', 0),
+('student16', 'Student Sixteen', 'student16@example.com', 'pass16', 0),
+('student17', 'Student Seventeen', 'student17@example.com', 'pass17', 0),
+('student18', 'Student Eighteen', 'student18@example.com', 'pass18', 0),
+('student19', 'Student Nineteen', 'student19@example.com', 'pass19', 0),
+('student20', 'Student Twenty', 'student20@example.com', 'pass20', 0),
+('student21', 'Student Twenty-One', 'student21@example.com', 'pass21', 0),
+('student22', 'Student Twenty-Two', 'student22@example.com', 'pass22', 0),
+('student23', 'Student Twenty-Three', 'student23@example.com', 'pass23', 0),
+('student24', 'Student Twenty-Four', 'student24@example.com', 'pass24', 0),
+('student25', 'Student Twenty-Five', 'student25@example.com', 'pass25', 0);
 
-(5, 2),  -- section_id = 10 History (Bob)
-(5, 3),  -- section_id = 11 History (Carol)
-(5, 1),  -- section_id = 12 History (Alice)
 
-(6, 3),  -- section_id = 13 Computer Science (Carol)
-(6, 2),  -- section_id = 14 Computer Science (Bob)
+-- Section 1 (Math 101, Teacher 1) - students 4,5,6,7,8
+INSERT INTO grades (user_id, section_id, assignment_name, grade_value) VALUES
+(4, 1, 'Homework 1', 85), (4, 1, 'Quiz 1', 90), (4, 1, 'Exam 1', 88),
+(5, 1, 'Homework 1', 82), (5, 1, 'Quiz 1', 87), (5, 1, 'Exam 1', 91),
+(6, 1, 'Homework 1', 75), (6, 1, 'Quiz 1', 80), (6, 1, 'Exam 1', 78),
+(7, 1, 'Homework 1', 92), (7, 1, 'Quiz 1', 88), (7, 1, 'Exam 1', 94),
+(8, 1, 'Homework 1', 88), (8, 1, 'Quiz 1', 84), (8, 1, 'Exam 1', 90);
 
-(7, 1),  -- section_id = 15 Art (Alice)
-(7, 3),  -- section_id = 16 Art (Carol)
+-- Section 2 (Math 101, Teacher 2) - students 9,10,11,12
+INSERT INTO grades (user_id, section_id, assignment_name, grade_value) VALUES
+(9, 2, 'Homework 1', 77), (9, 2, 'Quiz 1', 81), (9, 2, 'Exam 1', 79),
+(10, 2, 'Homework 1', 85), (10, 2, 'Quiz 1', 89), (10, 2, 'Exam 1', 90),
+(11, 2, 'Homework 1', 80), (11, 2, 'Quiz 1', 83), (11, 2, 'Exam 1', 85),
+(12, 2, 'Homework 1', 74), (12, 2, 'Quiz 1', 76), (12, 2, 'Exam 1', 78);
 
-(8, 2),  -- section_id = 17 Physics (Bob)
-(8, 1);  -- section_id = 18 Physics (Alice)
+-- Section 3 (English 101, Teacher 1) - students 13,14,15,16
+INSERT INTO grades (user_id, section_id, assignment_name, grade_value) VALUES
+(13, 3, 'Essay 1', 88), (13, 3, 'Quiz 1', 85), (13, 3, 'Midterm', 90),
+(14, 3, 'Essay 1', 82), (14, 3, 'Quiz 1', 79), (14, 3, 'Midterm', 84),
+(15, 3, 'Essay 1', 91), (15, 3, 'Quiz 1', 87), (15, 3, 'Midterm', 93),
+(16, 3, 'Essay 1', 76), (16, 3, 'Quiz 1', 80), (16, 3, 'Midterm', 78);
 
--- ---------- STUDENTS ---------- --studentpass1
-INSERT INTO `users` (`username`, `fullName`, `email`, `password`, `isTeacher`) VALUES
-('student1', 'Student One', 'student1@example.com', '$2y$10$MMaUHkgOfJIX3zmDKmYb8.Pn3.MmoH6KYm85mEcpRsQhtlUxMs1XW', 0),
-('student2', 'Student Two', 'student2@example.com', '$2y$10$YbvunKvgTJUv6zAOjPrN4uVSSAEIA/gjTKTdBXTJ/JC0e.4vlvf5O', 0),
-('student3', 'Student Three', 'student3@example.com', '$2y$10$Ce0PIkBPXU7jInKPNof.aOKZH6Ji7oEKVpqG6fpiX87J26fQ1Ujyi', 0),
-('student4', 'Student Four', 'student4@example.com', '$2y$10$.LPKa9sHMSDSAx.pKVwXkuutz5IiqTWdC0GE9OX4MYNCSGxm2IGIa', 0),
-('student5', 'Student Five', 'student5@example.com', '$2y$10$NDrfRyjZkskSVFNWrkcn5OpBe9S26UDzXXELF8SqUJPgQs9icqZk2', 0),
-('student6', 'Student Six', 'student6@example.com', '$2y$10$s5qDWt2lC2G0XScIttafTeaMDjsGA4kroBrTl2MYrAgA8rI.ARW2u', 0),
-('student7', 'Student Seven', 'student7@example.com', '$2y$10$gReT12PsMcTl/JGtNbjm/.Rcn7sQD9TF7AzKbtDZZWErFCl2RYGk6', 0),
-('student8', 'Student Eight', 'student8@example.com', '$2y$10$g24XvF.26MbNa1Ua/KWMje9OEeyZiVBKI5FoLV4DD7n.NCX8jLB/a', 0),
-('student9', 'Student Nine', 'student9@example.com', '$2y$10$FsYxS6kwLiTWvU9ninDQIevRCrr1QXJZd6FhpYPNDUluwy9qsi20a', 0),
-('student10', 'Student Ten', 'student10@example.com', '$2y$10$LRC8FaMXwfEjJNAC2Y4Nauu80gVvWp7VlxNOtFQs.uE4NHIOjkAC.', 0),
-('student11', 'Student Eleven', 'student11@example.com', '$2y$10$1PFuJITNYCroIGhJ1FIJK.nYChK4hPAKgZiySCa58aEhh.eeFb3P6', 0),
-('student12', 'Student Twelve', 'student12@example.com', '$2y$10$wI0XaENBU1XfaL7LIVFwku5rygFVzOoQ85XgnQCeeGf2tebmE4xA2', 0),
-('student13', 'Student Thirteen', 'student13@example.com', '$2y$10$uZkXCCynALhieqN6BUWWseHEnCSKPTGsUerbDl1ldeXWu/uaIrzeO', 0),
-('student14', 'Student Fourteen', 'student14@example.com', '$2y$10$xLBEfBz.58m9H1fWCq0.bOcktn87hR4ADiq9f6GT9AP4jKbDCWJbu', 0),
-('student15', 'Student Fifteen', 'student15@example.com', '$2y$10$Q09lP1A7YfNu3iRgmT7CW.yGLc2CLkBsyQ4PbQZzf4TjhDJvyaZim', 0),
-('student16', 'Student Sixteen', 'student16@example.com', '$2y$10$cRZIvANNukrhyeYPoHouAuqipJR5WwdekXL3Pybid0F.J5VV3YGmW', 0),
-('student17', 'Student Seventeen', 'student17@example.com', '$2y$10$EaB2qQIgI0lr/OF1kn2VyuYCRY6nahIApQOm6wJ6.CVAlVJc4IBxm', 0),
-('student18', 'Student Eighteen', 'student18@example.com', '$2y$10$NFPxMruzHx.U4uzbJG9B.usi4bbY0Fwr371kWyQxBofOH9FjJksiC', 0),
-('student19', 'Student Nineteen', 'student19@example.com', '$2y$10$yVmxxlnLYNUJHXYzizXJaeBbGqB7MB6PmAANFUC2r8U4Z2vkmBule', 0),
-('student20', 'Student Twenty', 'student20@example.com', '$2y$10$PO6MGyg7PJ5OKBf3zZZESO6GQTFqxq.UNNPKb8ZQNpKJrDtkq3Gyi', 0);
+-- Section 4 (English 101, Teacher 3) - students 17,18,19
+INSERT INTO grades (user_id, section_id, assignment_name, grade_value) VALUES
+(17, 4, 'Essay 1', 83), (17, 4, 'Quiz 1', 79), (17, 4, 'Midterm', 81),
+(18, 4, 'Essay 1', 85), (18, 4, 'Quiz 1', 82), (18, 4, 'Midterm', 88),
+(19, 4, 'Essay 1', 77), (19, 4, 'Quiz 1', 74), (19, 4, 'Midterm', 79);
 
--- ---------- GRADES / ENROLLMENTS ----------
+-- Section 5 (History 101, Teacher 2) - students 20,21,22
+INSERT INTO grades (user_id, section_id, assignment_name, grade_value) VALUES
+(20, 5, 'Assignment 1', 91), (20, 5, 'Quiz 1', 88), (20, 5, 'Exam 1', 93),
+(21, 5, 'Assignment 1', 84), (21, 5, 'Quiz 1', 80), (21, 5, 'Exam 1', 86),
+(22, 5, 'Assignment 1', 78), (22, 5, 'Quiz 1', 75), (22, 5, 'Exam 1', 81);
 
-INSERT INTO `grades` (`user_id`, `course_id`, `section_id`, `grade_value`) VALUES
--- student user_id = 4  (k=0) --> sections 1,7,13
-(4, 1, 1, 95.00),
-(4, 3, 7, 88.50),
-(4, 6, 13, 76.25),
+-- Section 6 (History 101, Teacher 3) - students 23,24,25
+INSERT INTO grades (user_id, section_id, assignment_name, grade_value) VALUES
+(23, 6, 'Assignment 1', 89), (23, 6, 'Quiz 1', 85), (23, 6, 'Exam 1', 90),
+(24, 6, 'Assignment 1', 83), (24, 6, 'Quiz 1', 80), (24, 6, 'Exam 1', 84),
+(25, 6, 'Assignment 1', 75), (25, 6, 'Quiz 1', 72), (25, 6, 'Exam 1', 78);
 
--- user_id = 5 (k=1) --> sections 2,8,14
-(5, 1, 2, 84.00),
-(5, 4, 8, 91.75),
-(5, 6, 14, 69.50),
+-- Section 7 (Science 101, Teacher 1) - students 4,6,8,10
+INSERT INTO grades (user_id, section_id, assignment_name, grade_value) VALUES
+(4, 7, 'Lab 1', 92), (4, 7, 'Quiz 1', 88), (4, 7, 'Midterm', 94),
+(6, 7, 'Lab 1', 80), (6, 7, 'Quiz 1', 76), (6, 7, 'Midterm', 82),
+(8, 7, 'Lab 1', 85), (8, 7, 'Quiz 1', 83), (8, 7, 'Midterm', 87),
+(10, 7, 'Lab 1', 78), (10, 7, 'Quiz 1', 74), (10, 7, 'Midterm', 80);
 
--- user_id = 6 (k=2) --> sections 3,9,15
-(6, 2, 3, 100.00),
-(6, 4, 9, 82.30),
-(6, 7, 15, 74.60),
+-- Section 8 (Science 101, Teacher 2) - students 12,14,16
+INSERT INTO grades (user_id, section_id, assignment_name, grade_value) VALUES
+(12, 8, 'Lab 1', 79), (12, 8, 'Quiz 1', 75), (12, 8, 'Midterm', 81),
+(14, 8, 'Lab 1', 84), (14, 8, 'Quiz 1', 80), (14, 8, 'Midterm', 86),
+(16, 8, 'Lab 1', 90), (16, 8, 'Quiz 1', 87), (16, 8, 'Midterm', 92);
 
--- user_id = 7 (k=3) --> sections 4,10,16
-(7, 2, 4, 89.40),
-(7, 5, 10, 95.00),
-(7, 7, 16, 88.50),
+-- Section 9 (Art 101, Teacher 2) - students 18,20,22,24
+INSERT INTO grades (user_id, section_id, assignment_name, grade_value) VALUES
+(18, 9, 'Project 1', 95), (18, 9, 'Quiz 1', 92), (18, 9, 'Final', 97),
+(20, 9, 'Project 1', 89), (20, 9, 'Quiz 1', 85), (20, 9, 'Final', 91),
+(22, 9, 'Project 1', 83), (22, 9, 'Quiz 1', 80), (22, 9, 'Final', 85),
+(24, 9, 'Project 1', 77), (24, 9, 'Quiz 1', 73), (24, 9, 'Final', 79);
 
--- user_id = 8 (k=4) --> sections 5,11,17
-(8, 2, 5, 76.25),
-(8, 5, 11, 84.00),
-(8, 8, 17, 91.75),
+-- Section 10 (Art 101, Teacher 3) - students 26,27,28
+INSERT INTO grades (user_id, section_id, assignment_name, grade_value) VALUES
+(26, 10, 'Project 1', 91), (26, 10, 'Quiz 1', 87), (26, 10, 'Final', 94),
+(27, 10, 'Project 1', 84), (27, 10, 'Quiz 1', 80), (27, 10, 'Final', 86),
+(28, 10, 'Project 1', 79), (28, 10, 'Quiz 1', 75), (28, 10, 'Final', 81);
 
--- user_id = 9 (k=5) --> sections 6,12,18
-(9, 3, 6, 69.50),
-(9, 5, 12, 100.00),
-(9, 8, 18, 82.30),
+-- Section 11 (Music 101, Teacher 1) - students 5,7,9,11
+INSERT INTO grades (user_id, section_id, assignment_name, grade_value) VALUES
+(5, 11, 'Performance 1', 92), (5, 11, 'Quiz 1', 88), (5, 11, 'Final', 95),
+(7, 11, 'Performance 1', 87), (7, 11, 'Quiz 1', 83), (7, 11, 'Final', 90),
+(9, 11, 'Performance 1', 81), (9, 11, 'Quiz 1', 78), (9, 11, 'Final', 84),
+(11, 11, 'Performance 1', 76), (11, 11, 'Quiz 1', 72), (11, 11, 'Final', 80);
 
--- user_id = 10 (k=6) --> sections 7,13,1
-(10, 3, 7, 74.60),
-(10, 6, 13, 89.40),
-(10, 1, 1, 95.00),
+-- Section 12 (Music 101, Teacher 3) - students 13,15,17,19
+INSERT INTO grades (user_id, section_id, assignment_name, grade_value) VALUES
+(13, 12, 'Performance 1', 93), (13, 12, 'Quiz 1', 89), (13, 12, 'Final', 96),
+(15, 12, 'Performance 1', 88), (15, 12, 'Quiz 1', 84), (15, 12, 'Final', 91),
+(17, 12, 'Performance 1', 82), (17, 12, 'Quiz 1', 78), (17, 12, 'Final', 85),
+(19, 12, 'Performance 1', 77), (19, 12, 'Quiz 1', 74), (19, 12, 'Final', 80);
 
--- user_id = 11 (k=7) --> sections 8,14,2
-(11, 4, 8, 88.50),
-(11, 6, 14, 76.25),
-(11, 1, 2, 84.00),
 
--- user_id = 12 (k=8) --> sections 9,15,3
-(12, 4, 9, 91.75),
-(12, 7, 15, 69.50),
-(12, 2, 3, 100.00),
-
--- user_id = 13 (k=9) --> sections 10,16,4
-(13, 5, 10, 82.30),
-(13, 7, 16, 74.60),
-(13, 2, 4, 89.40),
-
--- user_id = 14 (k=10) --> sections 11,17,5
-(14, 5, 11, 95.00),
-(14, 8, 17, 88.50),
-(14, 2, 5, 76.25),
-
--- user_id = 15 (k=11) --> sections 12,18,6
-(15, 5, 12, 84.00),
-(15, 8, 18, 91.75),
-(15, 3, 6, 69.50),
-
--- user_id = 16 (k=12) --> sections 13,1,7
-(16, 6, 13, 100.00),
-(16, 1, 1, 82.30),
-(16, 3, 7, 74.60),
-
--- user_id = 17 (k=13) --> sections 14,2,8
-(17, 6, 14, 89.40),
-(17, 1, 2, 95.00),
-(17, 4, 8, 88.50),
-
--- user_id = 18 (k=14) --> sections 15,3,9
-(18, 7, 15, 76.25),
-(18, 2, 3, 84.00),
-(18, 4, 9, 91.75),
-
--- user_id = 19 (k=15) --> sections 16,4,10
-(19, 7, 16, 69.50),
-(19, 2, 4, 100.00),
-(19, 5, 10, 82.30),
-
--- user_id = 20 (k=16) --> sections 17,5,11
-(20, 8, 17, 74.60),
-(20, 2, 5, 89.40),
-(20, 5, 11, 95.00),
-
--- user_id = 21 (k=17) --> sections 18,6,12
-(21, 8, 18, 88.50),
-(21, 3, 6, 76.25),
-(21, 5, 12, 84.00),
-
--- user_id = 22 (k=18) --> sections 1,7,13
-(22, 1, 1, 91.75),
-(22, 3, 7, 69.50),
-(22, 6, 13, 100.00),
-
--- user_id = 23 (k=19) --> sections 2,8,14
-(23, 1, 2, 82.30),
-(23, 4, 8, 74.60),
-(23, 6, 14, 89.40);
+INSERT INTO enrollments (student_id, section_id) VALUES
+-- Section 1 (Math 101, Teacher 1)
+(4, 1), (5, 1), (6, 1), (7, 1), (8, 1),
+-- Section 2 (Math 101, Teacher 2)
+(9, 2), (10, 2), (11, 2), (12, 2),
+-- Section 3 (English 101, Teacher 1)
+(13, 3), (14, 3), (15, 3), (16, 3),
+-- Section 4 (English 101, Teacher 3)
+(17, 4), (18, 4), (19, 4),
+-- Section 5 (History 101, Teacher 2)
+(20, 5), (21, 5), (22, 5),
+-- Section 6 (History 101, Teacher 3)
+(23, 6), (24, 6), (25, 6),
+-- Section 7 (Science 101, Teacher 1)
+(4, 7), (6, 7), (8, 7), (10, 7),
+-- Section 8 (Science 101, Teacher 2)
+(12, 8), (14, 8), (16, 8),
+-- Section 9 (Art 101, Teacher 2)
+(18, 9), (20, 9), (22, 9), (24, 9),
+-- Section 10 (Art 101, Teacher 3)
+(26, 10), (27, 10), (28, 10),
+-- Section 11 (Music 101, Teacher 1)
+(5, 11), (7, 11), (9, 11), (11, 11),
+-- Section 12 (Music 101, Teacher 3)
+(13, 12), (15, 12), (17, 12), (19, 12);
