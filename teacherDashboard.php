@@ -63,6 +63,24 @@
         $stmt->execute();
         $studentGradesResult = $stmt->get_result();
     }
+
+    //add assignments and grades for given student/section
+    if (isset($_POST['submit_assignment'])) {
+        $section_id = $_POST['selected_section'];
+        $assignment_name = $_POST['assignment_name'];
+        $grades = $_POST['grades']; //array, student_id to grade_value
+
+        foreach ($grades as $student_id => $grade_value) {
+            $stmt = $conn->prepare("
+                INSERT INTO grades (user_id, section_id, assignment_name, grade_value)
+                VALUES (?, ?, ?, ?)
+            ");
+            $stmt->bind_param("iisd", $student_id, $section_id, $assignment_name, $grade_value);
+            $stmt->execute();
+        }
+
+        echo "<p style='color:green;'>Assignment and grades added successfully!</p>";
+    }
 ?>
 
 <!DOCTYPE html>
@@ -75,132 +93,187 @@
 </head>
 <body>
     <div class="navigation">
-        <a href="login.php">Login</a>
-        <a href="register.php">Register</a>
-        <a href="home.php">Home</a>
+        <div class="nav-left">
+            <a href="login.php">Login</a>
+            <a href="register.php">Register</a>
+            <a href="home.php">Home</a>
+            <a href="about.php">About</a>
+        </div>
+        <div class="nav-right">
+            <p>SimplyGrade</p>
+        </div>
     </div>
 
-    <h2>Welcome back <?php echo htmlspecialchars($_SESSION['username']); ?>!</h2>
+    <div class="classes-and-sections">
+        <h2>Welcome back <?php echo htmlspecialchars($_SESSION['username']); ?>!</h2>
 
-    <h3>Your Classes & Sections:</h3>
-    <?php if (isset($sectionsResult) && $sectionsResult && $sectionsResult->num_rows > 0): ?>
-        <ul>
-            <?php while ($row = $sectionsResult->fetch_assoc()): ?>
-                <li>
-                    <?php echo htmlspecialchars($row['courseName']); ?> - Section <?php echo $row['section_id']; ?>
-                    <form action="teacherDashboard.php" method="post" style="display:inline;">
-                        <input type="hidden" name="section_id" value="<?php echo $row['section_id']; ?>">
-                        <button type="submit" name="view_students">View Students</button>
-                        <button type="submit" name="view_assignments">View Assignments</button>
-                    </form>
-                </li>
-            <?php endwhile; ?>
-        </ul>
-    <?php else: ?>
-        <p>You are not assigned to any sections yet.</p>
-    <?php endif; ?>
+        <h3>Your Classes & Sections:</h3>
+        <?php if (isset($sectionsResult) && $sectionsResult && $sectionsResult->num_rows > 0): ?>
+            <ul>
+                <?php while ($row = $sectionsResult->fetch_assoc()): ?>
+                    <li>
+                        <?php echo htmlspecialchars($row['courseName']); ?> - Section <?php echo $row['section_id']; ?>
+                        <form action="teacherDashboard.php" method="post" style="display:inline;">
+                            <input type="hidden" name="section_id" value="<?php echo $row['section_id']; ?>">
+                            <button type="submit" name="view_students">View Students</button>
+                            <button type="submit" name="view_assignments">View Assignments</button>
+                        </form>
+                    </li>
+                <?php endwhile; ?>
+            </ul>
+        <?php else: ?>
+            <p>You are not assigned to any sections yet.</p>
+        <?php endif; ?>
+    </div>
 
     <!--show students-->
     <?php if ($studentsResult !== null): ?>
-        <h3>Students in Section <?php echo $selected_section; ?>:</h3>
-        <?php if ($studentsResult->num_rows > 0): ?>
-            <table border="1" cellpadding="5" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>Full Name</th>
-                        <th>Username</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while ($student = $studentsResult->fetch_assoc()): ?>
+        <div class="student-results">
+            <h3>Students in Section <?php echo $selected_section; ?>:</h3>
+            <?php if ($studentsResult->num_rows > 0): ?>
+                <table>
+                    <thead>
                         <tr>
-                            <td><?php echo htmlspecialchars($student['fullName']); ?></td>
-                            <td><?php echo htmlspecialchars($student['username']); ?></td>
-                            <td>
-                                <form action="teacherDashboard.php" method="post" style="display:inline;">
-                                    <input type="hidden" name="section_id" value="<?php echo $selected_section; ?>">
-                                    <input type="hidden" name="student_id" value="<?php echo $student['user_id']; ?>">
-                                    <button type="submit" name="view_student_grades">View Grades</button>
-                                </form>
-                            </td>
+                            <th>Full Name</th>
+                            <th>Username</th>
+                            <th>Action</th>
                         </tr>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
-        <?php else: ?>
-            <p>No students enrolled in this section.</p>
-        <?php endif; ?>
+                    </thead>
+                    <tbody>
+                        <?php while ($student = $studentsResult->fetch_assoc()): ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($student['fullName']); ?></td>
+                                <td><?php echo htmlspecialchars($student['username']); ?></td>
+                                <td>
+                                    <form action="teacherDashboard.php" method="post" style="display:inline;">
+                                        <input type="hidden" name="section_id" value="<?php echo $selected_section; ?>">
+                                        <input type="hidden" name="student_id" value="<?php echo $student['user_id']; ?>">
+                                        <button type="submit" name="view_student_grades">View Grades</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+            <?php else: ?>
+                <p>No students enrolled in this section.</p>
+            <?php endif; ?>
+        </div>
     <?php endif; ?>
 
     <!--show assignments-->
     <?php if ($assignmentsResult !== null): ?>
-        <h3>Assignments for Section <?php echo $selected_section; ?>:</h3>
-        <?php if ($assignmentsResult->num_rows > 0): ?>
-            <table border="1" cellpadding="5" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>Assignment</th>
-                        <th>Average Grade</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while ($row = $assignmentsResult->fetch_assoc()): ?>
+        <div class="all-assignments">
+            <h3>Assignments for Section <?php echo $selected_section; ?>:</h3>
+            <?php if ($assignmentsResult->num_rows > 0): ?>
+                <table>
+                    <thead>
                         <tr>
-                            <td><?php echo htmlspecialchars($row['assignment_name']); ?></td>
-                            <td><?php echo htmlspecialchars($row['avg_grade']); ?></td>
+                            <th>Assignment</th>
+                            <th>Average Grade</th>
                         </tr>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
-        <?php else: ?>
-            <p>No assignments/grades found for this section.</p>
-        <?php endif; ?>
-    <?php endif; ?>
+                    </thead>
+                    <tbody>
+                        <?php while ($row = $assignmentsResult->fetch_assoc()): ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($row['assignment_name']); ?></td>
+                                <td><?php echo htmlspecialchars($row['avg_grade']); ?></td>
+                            </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+            <?php else: ?>
+                <p>No assignments/grades found for this section.</p>
+            <?php endif; ?>
+        </div>
 
-    <!--show individual grades-->
-    <?php if ($studentGradesResult !== null): ?>
-        <h3>Grades for Student in Section <?php echo $selected_section; ?>:</h3>
-        <?php if ($studentGradesResult->num_rows > 0): ?>
-            <table border="1" cellpadding="5" cellspacing="0">
+    <div class="add-assignment">
+        <h4>Add New Assignment</h4>
+        <form method="post" action="">
+            <input type="hidden" name="selected_section" value="<?php echo htmlspecialchars($selected_section); ?>">
+
+            <label for="assignment_name">Assignment Name:</label><br>
+            <input type="text" id="assignment_name" name="assignment_name" required><br><br>
+
+            <table>
                 <thead>
                     <tr>
-                        <th>Assignment</th>
+                        <th>Student</th>
                         <th>Grade</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php 
-                        $total = 0;
-                        $count = 0;
-                        while ($grade = $studentGradesResult->fetch_assoc()):
-                            $total += $grade['grade_value'];
-                            $count++;
+                    <?php
+                    $studentsQuery = "
+                        SELECT u.user_id AS student_id, u.fullName AS student_name FROM users u
+                        JOIN enrollments e ON u.user_id = e.student_id 
+                        WHERE e.section_id = '$selected_section' AND u.isTeacher = 0
+                    ";
+                    $studentsResult = $conn->query($studentsQuery);
+
+                    if ($studentsResult && $studentsResult->num_rows > 0):
+                        while ($student = $studentsResult->fetch_assoc()):
                     ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($student['student_name']); ?></td>
+                            <td>
+                                <input type="number" name="grades[<?php echo $student['student_id']; ?>]" min="0" max="100" step="0.1" required>
+                            </td>
+                        </tr>
+                    <?php
+                        endwhile;
+                    else:
+                        echo "<tr><td colspan='2'>No students found in this section.</td></tr>";
+                    endif;
+                    ?>
+                </tbody>
+            </table>
+
+            <br>
+            <button type="submit" name="submit_assignment" value="1">Save Assignment</button>
+        </form>
+    </div>
+    <?php endif; ?>
+
+    <!--show individual grades-->
+    <?php if ($studentGradesResult !== null): ?>
+        <div class="individual-grades">
+            <h3>Grades for Student in Section <?php echo $selected_section; ?>:</h3>
+            <?php if ($studentGradesResult->num_rows > 0): ?>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Assignment</th>
+                            <th>Grade</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php 
+                            $total = 0;
+                            $count = 0;
+                            while ($grade = $studentGradesResult->fetch_assoc()):
+                                $total += $grade['grade_value'];
+                                $count++;
+                        ?>
                         <tr>
                             <td><?php echo htmlspecialchars($grade['assignment_name']); ?></td>
                             <td><?php echo htmlspecialchars($grade['grade_value']); ?></td>
                         </tr>
-                    <?php endwhile; ?>
-                    <tr>
-                        <td><strong>Average Grade</strong></td>
-                        <td>
-                            <strong>
-                                <?php 
-                                    echo $count > 0 ? round($total / $count, 2) : 'N/A'; 
-                                ?>
-                            </strong>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        <?php else: ?>
-            <p>No grades found for this student in this section.</p>
-        <?php endif; ?>
+                        <?php endwhile; ?>
+                        <tr>
+                            <td><strong>Average Grade</strong></td>
+                            <td>
+                                <strong>
+                                    <?php echo $count > 0 ? round($total / $count, 2) : 'N/A'; ?>
+                                </strong>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            <?php else: ?>
+                <p>No grades found for this student in this section.</p>
+            <?php endif; ?>
+        </div>
     <?php endif; ?>
 </body>
 </html>
-
-
-<!-- todo: method for teacher to add assignments, placing students in classes, 
-adding classes/sections, dropping/adding students would be administrative jobs, will implement if possible -->
