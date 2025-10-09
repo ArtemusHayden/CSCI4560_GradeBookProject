@@ -14,6 +14,7 @@ CREATE TABLE `users` (
     `fullName` VARCHAR(255) NOT NULL,
     `email` VARCHAR(100) NOT NULL UNIQUE,
     `password` VARCHAR(255) NOT NULL,
+    `organization` VARCHAR(255) NOT NULL,
     `isTeacher` BIT NOT NULL, -- if false, user is student, if true user is teacher
     PRIMARY KEY (`user_id`)
 );
@@ -47,16 +48,23 @@ CREATE TABLE `enrollments` (
     FOREIGN KEY (`section_id`) REFERENCES `sections`(`section_id`)
 );
 
+CREATE TABLE `organizations` (
+    `organization_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `organization_name` VARCHAR(255) NOT NULL,
+    PRIMARY KEY (`organization_id`)
+);
+
 -- below is AI generated junk data for testing/demo purposes
 
 
 -- -----------------------------
 -- Insert Teachers
 -- -----------------------------
-INSERT INTO users (username, fullName, email, password, isTeacher) VALUES
-('teacher1', 'Alice Johnson', 'alice.johnson@example.com', 'password123', 1),
-('teacher2', 'Bob Smith', 'bob.smith@example.com', 'password123', 1),
-('teacher3', 'Carol Davis', 'carol.davis@example.com', 'password123', 1);
+INSERT INTO users (username, fullName, email, password, organization, isTeacher) VALUES
+('teacher1', 'Alice Johnson', 'alice.johnson@example.com', 'password123', 'Middle Tennessee State University', 1),
+('teacher2', 'Robert Smith', 'bob.smith@example.com', 'password123', 'Middle Tennessee State University', 1),
+('teacher3', 'Carol Davis', 'carol.davis@example.com', 'password123', 'Middle Tennessee State University', 1);
+
 
 -- Teacher login info example:
 -- Username: teacher1
@@ -87,32 +95,33 @@ INSERT INTO sections (course_id, teacher_id) VALUES
 -- -----------------------------
 -- Insert Students (25)
 -- -----------------------------
-INSERT INTO users (username, fullName, email, password, isTeacher) VALUES
-('student1', 'Student One', 'student1@example.com', 'pass1', 0),
-('student2', 'Student Two', 'student2@example.com', 'pass2', 0),
-('student3', 'Student Three', 'student3@example.com', 'pass3', 0),
-('student4', 'Student Four', 'student4@example.com', 'pass4', 0),
-('student5', 'Student Five', 'student5@example.com', 'pass5', 0),
-('student6', 'Student Six', 'student6@example.com', 'pass6', 0),
-('student7', 'Student Seven', 'student7@example.com', 'pass7', 0),
-('student8', 'Student Eight', 'student8@example.com', 'pass8', 0),
-('student9', 'Student Nine', 'student9@example.com', 'pass9', 0),
-('student10', 'Student Ten', 'student10@example.com', 'pass10', 0),
-('student11', 'Student Eleven', 'student11@example.com', 'pass11', 0),
-('student12', 'Student Twelve', 'student12@example.com', 'pass12', 0),
-('student13', 'Student Thirteen', 'student13@example.com', 'pass13', 0),
-('student14', 'Student Fourteen', 'student14@example.com', 'pass14', 0),
-('student15', 'Student Fifteen', 'student15@example.com', 'pass15', 0),
-('student16', 'Student Sixteen', 'student16@example.com', 'pass16', 0),
-('student17', 'Student Seventeen', 'student17@example.com', 'pass17', 0),
-('student18', 'Student Eighteen', 'student18@example.com', 'pass18', 0),
-('student19', 'Student Nineteen', 'student19@example.com', 'pass19', 0),
-('student20', 'Student Twenty', 'student20@example.com', 'pass20', 0),
-('student21', 'Student Twenty-One', 'student21@example.com', 'pass21', 0),
-('student22', 'Student Twenty-Two', 'student22@example.com', 'pass22', 0),
-('student23', 'Student Twenty-Three', 'student23@example.com', 'pass23', 0),
-('student24', 'Student Twenty-Four', 'student24@example.com', 'pass24', 0),
-('student25', 'Student Twenty-Five', 'student25@example.com', 'pass25', 0);
+INSERT INTO users (username, fullName, email, password, organization, isTeacher) VALUES
+('student1', 'Emily Johnson', 'student1@example.com', 'pass1', 'Middle Tennessee State University', 0),
+('student2', 'Michael Smith', 'student2@example.com', 'pass2', 'Middle Tennessee State University', 0),
+('student3', 'Olivia Brown', 'student3@example.com', 'pass3', 'Middle Tennessee State University', 0),
+('student4', 'Joshua Davis', 'student4@example.com', 'pass4', 'Middle Tennessee State University', 0),
+('student5', 'Sophia Wilson', 'student5@example.com', 'pass5', 'Middle Tennessee State University', 0),
+('student6', 'Daniel Martinez', 'student6@example.com', 'pass6', 'Middle Tennessee State University', 0),
+('student7', 'Ava Anderson', 'student7@example.com', 'pass7', 'Middle Tennessee State University', 0),
+('student8', 'Ethan Thomas', 'student8@example.com', 'pass8', 'Middle Tennessee State University', 0),
+('student9', 'Isabella Taylor', 'student9@example.com', 'pass9', 'Middle Tennessee State University', 0),
+('student10', 'Alexander Moore', 'student10@example.com', 'pass10', 'Middle Tennessee State University', 0),
+('student11', 'Mia Jackson', 'student11@example.com', 'pass11', 'Middle Tennessee State University', 0),
+('student12', 'William White', 'student12@example.com', 'pass12', 'Middle Tennessee State University', 0),
+('student13', 'Charlotte Harris', 'student13@example.com', 'pass13', 'Middle Tennessee State University', 0),
+('student14', 'James Martin', 'student14@example.com', 'pass14', 'Middle Tennessee State University', 0),
+('student15', 'Amelia Thompson', 'student15@example.com', 'pass15', 'Middle Tennessee State University', 0),
+('student16', 'Benjamin Garcia', 'student16@example.com', 'pass16', 'Middle Tennessee State University', 0),
+('student17', 'Harper Martinez', 'student17@example.com', 'pass17', 'Middle Tennessee State University', 0),
+('student18', 'Lucas Robinson', 'student18@example.com', 'pass18', 'Middle Tennessee State University', 0),
+('student19', 'Evelyn Clark', 'student19@example.com', 'pass19', 'Middle Tennessee State University', 0),
+('student20', 'Henry Rodriguez', 'student20@example.com', 'pass20', 'Middle Tennessee State University', 0),
+('student21', 'Lily Lewis', 'student21@example.com', 'pass21', 'Middle Tennessee State University', 0),
+('student22', 'Jack Lee', 'student22@example.com', 'pass22', 'Middle Tennessee State University', 0),
+('student23', 'Chloe Walker', 'student23@example.com', 'pass23', 'Middle Tennessee State University', 0),
+('student24', 'Matthew Hall', 'student24@example.com', 'pass24', 'Middle Tennessee State University', 0),
+('student25', 'Ella Allen', 'student25@example.com', 'pass25', 'Middle Tennessee State University', 0);
+
 
 
 -- Section 1 (Math 101, Teacher 1) - students 4,5,6,7,8
@@ -222,4 +231,5 @@ INSERT INTO enrollments (student_id, section_id) VALUES
 -- Section 12 (Music 101, Teacher 3)
 (13, 12), (15, 12), (17, 12), (19, 12);
 
-
+INSERT INTO organizations (organization_name) VALUES
+('Middle Tennessee State University');
