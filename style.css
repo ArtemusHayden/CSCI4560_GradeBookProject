@@ -1,0 +1,287 @@
+/*nav bar css*/
+.navigation {
+    background-color: #2c3e50;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.navigation a {
+    color: #ecf0f1;
+    text-decoration: none;
+    margin-right: 15px;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+}
+
+.navigation a:hover {
+    background-color: #34495e;
+    border-radius: 4px;
+    padding: 6px 10px;
+}
+
+.nav-right {
+    color: #ecf0f1;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    text-align: right;
+    max-width: 40%;        
+}
+
+
+/*home page css*/
+body {
+    margin: 0;
+    padding-top: 70px;
+    font-family: Arial, sans-serif;
+}
+
+.welcome-container {
+    text-align: center;
+    margin-top: 100px; 
+    color: #2c3e50;
+    font-family: Arial, sans-serif;
+}
+
+.welcome-container h2 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.welcome-container h3 {
+    font-size: 20px;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+.welcome-buttons .btn {
+    display: inline-block;
+    margin: 10px;
+    padding: 12px 25px;
+    background-color: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 18px;
+    transition: background-color 0.2s ease;
+}
+
+.welcome-buttons .btn:hover {
+    background-color: #2980b9;
+}
+
+
+/*about page css*/
+.about-section {
+    max-width: 800px;          
+    margin: 50px auto;        
+    padding: 20px;
+    background-color: #f5f5f5; 
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    text-align: center;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+.about-section h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.about-section p {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+
+/*login page css*/
+.login-container {
+    width: 300px;
+    margin: 50px auto;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+.login-container input {
+    width: 100%;
+    padding: 8px;
+    margin: 8px 0;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+
+.login-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.login-container button:hover {
+    background-color: #0056b3;
+}
+
+.login-container .error-message {
+    color: red;
+    margin-top: 10px;
+}
+
+
+/*register page css*/
+.register-container {
+    width: 300px;
+    margin: 50px auto;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+.register-container input,
+.register-container select {
+    width: 100%;
+    padding: 8px;
+    margin: 8px 0;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+
+.register-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745; 
+    color: white;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.register-container button:hover {
+    background-color: #218838;
+}
+
+.register-container .error-message {
+    color: red;
+    margin-top: 10px;
+}
+
+
+/*teacher dashboard page css */
+.classes-and-sections,
+.student-results,
+.individual-grades,
+.all-assignments,
+.add-assignment {
+    width: 90%;
+    max-width: 700px;
+    margin: 30px auto;
+    font-family: Arial, sans-serif;
+}
+
+/*headers*/
+.classes-and-sections h2,
+.classes-and-sections h3,
+.student-results h3,
+.individual-grades h3,
+.all-assignments h3,
+.add-assignment h4 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/*lists*/
+.classes-and-sections ul {
+    list-style: none;
+    padding-left: 0;
+}
+.classes-and-sections li {
+    background: #f8f9fa;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/*tables*/
+.student-results table,
+.individual-grades table,
+.all-assignments table,
+.add-assignment table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.student-results th,
+.student-results td,
+.individual-grades th,
+.individual-grades td,
+.all-assignments th,
+.all-assignments td,
+.add-assignment th,
+.add-assignment td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+.student-results th,
+.individual-grades th,
+.all-assignments th,
+.add-assignment th {
+    background-color: #f0f0f0;
+}
+
+/*buttons*/
+.classes-and-sections li form button,
+.student-results button,
+.add-assignment button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+.classes-and-sections li form button,
+.student-results button {
+    background-color: #007bff;
+}
+.classes-and-sections li form button:hover,
+.student-results button:hover {
+    background-color: #0056b3;
+}
+.add-assignment button {
+    background-color: #28a745;
+}
+.add-assignment button:hover {
+    background-color: #218838;
+}
+
+/*inputs*/
+.add-assignment label {
+    font-weight: bold;
+}
+.add-assignment input[type="text"],
+.add-assignment input[type="number"] {
+    width: 100%;
+    padding: 5px;
+    margin: 5px 0 10px;
+    box-sizing: border-box;
+}
+
+/*misc*/
+.individual-grades strong {
+    font-weight: bold;
+}
+
