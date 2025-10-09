@@ -48,27 +48,35 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="navigation"> <!-- default nav bar -->
-        <a href="login.php">Login</a>
-        <a href="register.php">Register</a>
-        <a href="home.php">Home</a>
+    <div class="navigation">
+        <div class="nav-left">
+            <a href="login.php">Login</a>
+            <a href="register.php">Register</a>
+            <a href="home.php">Home</a>
+            <a href="about.php">About</a>
+        </div>
+        <div class="nav-right">
+            <p>SimplyGrade</p>
+        </div>
     </div>
 
-    <h2>Welcome back!</h2>
+    <div class="login-container">
+        <h2>Welcome back!</h2>
 
-    <form method="POST"> <!-- form for user inputs -->
-        <label>Username:</label><br>
-        <input type="text" name="username" required><br><br>
+        <form method="POST"> <!-- form for user inputs -->
+            <label>Username:</label><br>
+            <input type="text" name="username" required><br><br>
 
-        <label>Password:</label><br>
-        <input type="password" name="password" required><br><br>
+            <label>Password:</label><br>
+            <input type="password" name="password" required><br><br>
 
-        <button type="submit">Login</button>
-    </form>
+            <button type="submit">Login</button>
+        </form>
 
-    <?php
-        if (!empty($message)) { //if error message, display now
-            echo '<p style="color:red;">' . $message . '</p>';
-        }
-    ?>
+        <?php
+            if (!empty($message)) {
+                echo '<p class="error-message">' . $message . '</p>';
+            }
+        ?>
+    </div>
 </body>
