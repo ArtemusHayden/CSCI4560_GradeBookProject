@@ -54,6 +54,7 @@
             <a href="register.php">Register</a>
             <a href="home.php">Home</a>
             <a href="about.php">About</a>
+            <a href="logout.php">Logout</a>
         </div>
         <div class="nav-right">
             <p>SimplyGrade</p>
