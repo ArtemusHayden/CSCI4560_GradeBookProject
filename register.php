@@ -53,53 +53,54 @@
             <a href="register.php">Register</a>
             <a href="home.php">Home</a>
             <a href="about.php">About</a>
+            <a href="logout.php">Logout</a>
         </div>
         <div class="nav-right">
             <p>SimplyGrade</p>
         </div>
     </div>
 
-    
-<div class="register-container">
-    <h2>Create an Account</h2>
+    <div class="register-container">
+        <h2>Create an Account</h2>
 
-    <form method="POST" action="register.php">
-        <label>Username:</label>
-        <input type="text" name="username" required>
+        <form method="POST" action="register.php"> <!-- form for registering -->
+            <label>Username:</label>
+            <input type="text" name="username" required>
 
-        <label>Full Name:</label>
-        <input type="text" name="fullName" required>
+            <label>Full Name:</label>
+            <input type="text" name="fullName" required>
 
-        <label>Email:</label>
-        <input type="email" name="email" required>
+            <label>Email:</label>
+            <input type="email" name="email" required>
 
-        <label>Password:</label>
-        <input type="password" name="password" required>
+            <label>Password:</label>
+            <input type="password" name="password" required>
 
-        <label>Role:</label>
-        <select name="role" required>
-            <option value="student">Student</option>
-            <option value="teacher">Teacher</option>
-        </select>
+            <label>Role:</label>
+            <select name="role" required>
+                <option value="student">Student</option>
+                <option value="teacher">Teacher</option>
+            </select>
 
-        <label>Organization:</label>
-        <select name="organization_id" required>
-            <option value="">Select Organization</option>
-            <?php
-                if ($orgResult && $orgResult->num_rows > 0) {
-                    while ($row = $orgResult->fetch_assoc()) {
-                        echo '<option value="' . $row['organization_id'] . '">' . htmlspecialchars($row['organization_name']) . '</option>';
+            <label>Organization:</label>
+            <select name="organization_id" required>
+                <option value="">Select Organization</option> <!-- list organizations -->
+                <?php
+                    if ($orgResult && $orgResult->num_rows > 0) {
+                        while ($row = $orgResult->fetch_assoc()) {
+                            echo '<option value="' . $row['organization_id'] . '">' . htmlspecialchars($row['organization_name']) . '</option>';
+                        }
                     }
-                }
-            ?>
-        </select>
+                ?>
+            </select>
 
-        <button type="submit">Register</button>
-    </form>
+            <button type="submit">Register</button>
+        </form>
 
-    <?php
-        if (!empty($message)) {
-            echo '<p class="error-message">' . $message . '</p>';
-        }
-    ?>
+        <?php
+            if (!empty($message)) {
+                echo '<p class="error-message">' . $message . '</p>';
+            }
+        ?>
+    </div>
 </body>
