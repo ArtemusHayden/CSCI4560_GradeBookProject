@@ -176,7 +176,7 @@ body {
 }
 
 
-/*teacher dashboard page css */
+/*teacher/student dashboard page css */
 .classes-and-sections,
 .student-results,
 .individual-grades,
@@ -215,30 +215,14 @@ body {
 }
 
 /*tables*/
-.student-results table,
-.individual-grades table,
-.all-assignments table,
-.add-assignment table {
+table{
     width: 100%;
     border-collapse: collapse;
 }
-.student-results th,
-.student-results td,
-.individual-grades th,
-.individual-grades td,
-.all-assignments th,
-.all-assignments td,
-.add-assignment th,
-.add-assignment td {
+th, td{
     border: 1px solid #ccc;
     padding: 8px;
     text-align: left;
-}
-.student-results th,
-.individual-grades th,
-.all-assignments th,
-.add-assignment th {
-    background-color: #f0f0f0;
 }
 
 /*buttons*/
@@ -268,6 +252,33 @@ body {
     background-color: #218838;
 }
 
+.view-btn {
+    display: inline-block;
+    padding: 7px 14px;
+    margin-top: 20px;
+    background-color: #007bff; 
+    color: white;              
+    text-decoration: none;  
+    border-radius: 4px;        
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.view-btn:hover, .view_grades:hover {
+    background-color: #0056b3;
+}
+
+.view_grades {
+    display: inline-block;
+    padding: 7px 14px;
+    background-color: #007bff; 
+    color: white;              
+    text-decoration: none;  
+    border-radius: 4px; 
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
 /*inputs*/
 .add-assignment label {
     font-weight: bold;
@@ -284,4 +295,3 @@ body {
 .individual-grades strong {
     font-weight: bold;
 }
-
