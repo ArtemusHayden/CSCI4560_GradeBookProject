@@ -68,18 +68,22 @@
     if (isset($_POST['submit_assignment'])) {
         $section_id = $_POST['selected_section'];
         $assignment_name = $_POST['assignment_name'];
-        $grades = $_POST['grades']; //array, student_id to grade_value
+        $grades = $_POST['grades'];
 
         foreach ($grades as $student_id => $grade_value) {
-            $stmt = $conn->prepare("
-                INSERT INTO grades (user_id, section_id, assignment_name, grade_value)
-                VALUES (?, ?, ?, ?)
-            ");
+            $stmt = $conn->prepare("INSERT INTO grades (user_id, section_id, assignment_name, grade_value) 
+                                    VALUES (?, ?, ?, ?)");
             $stmt->bind_param("iisd", $student_id, $section_id, $assignment_name, $grade_value);
             $stmt->execute();
         }
 
-        echo "<p style='color:green;'>Assignment and grades added successfully!</p>";
+        //refresh student’s grades
+        $sql = "SELECT assignment_name, grade_value 
+                FROM grades WHERE section_id = ? AND user_id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ii", $section_id, $student_id);
+        $stmt->execute();
+        $studentGradesResult = $stmt->get_result();
     }
 ?>
 
@@ -98,13 +102,14 @@
             <a href="register.php">Register</a>
             <a href="home.php">Home</a>
             <a href="about.php">About</a>
+            <a href="logout.php">Logout</a>
         </div>
         <div class="nav-right">
             <p>SimplyGrade</p>
         </div>
     </div>
 
-    <div class="classes-and-sections">
+    <div class="classes-and-sections"> <!-- display teacher's section and classes -->
         <h2>Welcome back <?php echo htmlspecialchars($_SESSION['username']); ?>!</h2>
 
         <h3>Your Classes & Sections:</h3>
@@ -126,8 +131,7 @@
         <?php endif; ?>
     </div>
 
-    <!--show students-->
-    <?php if ($studentsResult !== null): ?>
+    <?php if ($studentsResult !== null): ?> <!--show students-->
         <div class="student-results">
             <h3>Students in Section <?php echo $selected_section; ?>:</h3>
             <?php if ($studentsResult->num_rows > 0): ?>
@@ -161,8 +165,7 @@
         </div>
     <?php endif; ?>
 
-    <!--show assignments-->
-    <?php if ($assignmentsResult !== null): ?>
+    <?php if ($assignmentsResult !== null): ?> <!--show assignments-->
         <div class="all-assignments">
             <h3>Assignments for Section <?php echo $selected_section; ?>:</h3>
             <?php if ($assignmentsResult->num_rows > 0): ?>
@@ -187,7 +190,7 @@
             <?php endif; ?>
         </div>
 
-    <div class="add-assignment">
+    <div class="add-assignment"> <!--add new assignments-->
         <h4>Add New Assignment</h4>
         <form method="post" action="">
             <input type="hidden" name="selected_section" value="<?php echo htmlspecialchars($selected_section); ?>">
@@ -204,11 +207,9 @@
                 </thead>
                 <tbody>
                     <?php
-                    $studentsQuery = "
-                        SELECT u.user_id AS student_id, u.fullName AS student_name FROM users u
-                        JOIN enrollments e ON u.user_id = e.student_id 
-                        WHERE e.section_id = '$selected_section' AND u.isTeacher = 0
-                    ";
+                    $studentsQuery = "SELECT u.user_id AS student_id, u.fullName AS student_name FROM users u
+                                    JOIN enrollments e ON u.user_id = e.student_id 
+                                    WHERE e.section_id = '$selected_section' AND u.isTeacher = 0";
                     $studentsResult = $conn->query($studentsQuery);
 
                     if ($studentsResult && $studentsResult->num_rows > 0):
@@ -235,8 +236,7 @@
     </div>
     <?php endif; ?>
 
-    <!--show individual grades-->
-    <?php if ($studentGradesResult !== null): ?>
+    <?php if ($studentGradesResult !== null): ?> <!--show individual grades-->
         <div class="individual-grades">
             <h3>Grades for Student in Section <?php echo $selected_section; ?>:</h3>
             <?php if ($studentGradesResult->num_rows > 0): ?>
